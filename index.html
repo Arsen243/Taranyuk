@@ -15,118 +15,76 @@
                 <li><a href="#">Каталог</a></li>
                 <li><a href="#">Контакти</a></li>
             </ul>
+            <!-- Кошик у верхньому правому кутку -->
+            <a href="cart.html" class="cart-link" id="cart-panel">
+                <img src="cart-icon.png" alt="Кошик">
+                <span id="cart-count">0</span>
+            </a>
         </nav>
     </header>
 
     <main>
+        <!-- Смартфони -->
         <h2>Смартфони</h2>
-        <div class="scroll-container">
+        <div class="scroll-container" onwheel="scrollHorizontally(event)">
             <div class="products">
-                <div class="product">
-                    <img src="phone1.jpg" alt="Смартфон 1">
-                    <h3>Смартфон 1</h3>
-                    <p>Ціна: 10 000 грн</p>
-                    <button>Купити</button>
-                </div>
-                <div class="product">
-                    <img src="phone2.jpg" alt="Смартфон 2">
-                    <h3>Смартфон 2</h3>
-                    <p>Ціна: 15 000 грн</p>
-                    <button>Купити</button>
-                </div>
+                <div class="product"><img src="phone1.jpg" alt="Смартфон 1"><h3>Смартфон 1</h3><p>10 000 грн</p><button onclick="addToCart('Смартфон 1', 10000)">Додати</button></div>
+                <div class="product"><img src="phone2.jpg" alt="Смартфон 2"><h3>Смартфон 2</h3><p>12 000 грн</p><button onclick="addToCart('Смартфон 2', 12000)">Додати</button></div>
+                <div class="product"><img src="phone3.jpg" alt="Смартфон 3"><h3>Смартфон 3</h3><p>14 000 грн</p><button onclick="addToCart('Смартфон 3', 14000)">Додати</button></div>
+                <div class="product"><img src="phone4.jpg" alt="Смартфон 4"><h3>Смартфон 4</h3><p>16 000 грн</p><button onclick="addToCart('Смартфон 4', 16000)">Додати</button></div>
             </div>
         </div>
 
-        <h2>Ноутбуки</h2>
-        <div class="scroll-container">
+        <!-- Планшети -->
+        <h2>Планшети</h2>
+        <div class="scroll-container" onwheel="scrollHorizontally(event)">
             <div class="products">
-                <div class="product">
-                    <img src="laptop1.jpg" alt="Ноутбук 1">
-                    <h3>Ноутбук 1</h3>
-                    <p>Ціна: 25 000 грн</p>
-                    <button>Купити</button>
-                </div>
-                <div class="product">
-                    <img src="laptop2.jpg" alt="Ноутбук 2">
-                    <h3>Ноутбук 2</h3>
-                    <p>Ціна: 30 000 грн</p>
-                    <button>Купити</button>
-                </div>
+                <div class="product"><img src="tablet1.jpg" alt="Планшет 1"><h3>Планшет 1</h3><p>7 500 грн</p><button onclick="addToCart('Планшет 1', 7500)">Додати</button></div>
+                <div class="product"><img src="tablet2.jpg" alt="Планшет 2"><h3>Планшет 2</h3><p>9 500 грн</p><button onclick="addToCart('Планшет 2', 9500)">Додати</button></div>
             </div>
         </div>
 
-        <h2>Аксесуари</h2>
-        <div class="scroll-container">
+        <!-- Розумні годинники -->
+        <h2>Розумні годинники</h2>
+        <div class="scroll-container" onwheel="scrollHorizontally(event)">
             <div class="products">
-                <div class="product">
-                    <img src="headphones.jpg" alt="Навушники">
-                    <h3>Навушники</h3>
-                    <p>Ціна: 2 000 грн</p>
-                    <button>Купити</button>
-                </div>
-                <div class="product">
-                    <img src="mouse.jpg" alt="Мишка">
-                    <h3>Комп'ютерна мишка</h3>
-                    <p>Ціна: 800 грн</p>
-                    <button>Купити</button>
-                </div>
-            </div>
-        </div>
-
-        <h2>Комплектуючі</h2>
-        <div class="scroll-container">
-            <div class="products">
-                <div class="product">
-                    <img src="ssd.jpg" alt="SSD">
-                    <h3>SSD диск</h3>
-                    <p>Ціна: 4 000 грн</p>
-                    <button>Купити</button>
-                </div>
-                <div class="product">
-                    <img src="ram.jpg" alt="ОЗП">
-                    <h3>Оперативна пам’ять</h3>
-                    <p>Ціна: 3 500 грн</p>
-                    <button>Купити</button>
-                </div>
-            </div>
-        </div>
-
-        <h2>Зарядні пристрої</h2>
-        <div class="scroll-container">
-            <div class="products">
-                <div class="product">
-                    <img src="charger.jpg" alt="Зарядний пристрій">
-                    <h3>Зарядний пристрій</h3>
-                    <p>Ціна: 1 200 грн</p>
-                    <button>Купити</button>
-                </div>
-                <div class="product">
-                    <img src="powerbank.jpg" alt="PowerBank">
-                    <h3>PowerBank</h3>
-                    <p>Ціна: 2 500 грн</p>
-                    <button>Купити</button>
-                </div>
-            </div>
-        </div>
-
-        <h2>Телевізори та монітори</h2>
-        <div class="scroll-container">
-            <div class="products">
-                <div class="product">
-                    <img src="tv.jpg" alt="Телевізор">
-                    <h3>Телевізор 55"</h3>
-                    <p>Ціна: 15 000 грн</p>
-                    <button>Купити</button>
-                </div>
-                <div class="product">
-                    <img src="monitor.jpg" alt="Монітор">
-                    <h3>Монітор 27"</h3>
-                    <p>Ціна: 8 500 грн</p>
-                    <button>Купити</button>
-                </div>
+                <div class="product"><img src="watch1.jpg" alt="Годинник 1"><h3>Годинник 1</h3><p>3 000 грн</p><button onclick="addToCart('Годинник 1', 3000)">Додати</button></div>
+                <div class="product"><img src="watch2.jpg" alt="Годинник 2"><h3>Годинник 2</h3><p>5 500 грн</p><button onclick="addToCart('Годинник 2', 5500)">Додати</button></div>
             </div>
         </div>
     </main>
+
+    <script>
+        function getCartItems() {
+            return localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+        }
+
+        function updateCartCount() {
+            document.getElementById("cart-count").innerText = getCartItems().length;
+        }
+
+        function addToCart(name, price) {
+            let cartItems = getCartItems();
+            cartItems.push({ name, price });
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartCount();
+
+            // Ховаємо панель кошика на 2 секунди
+            document.getElementById("cart-panel").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("cart-panel").style.opacity = "1";
+            }, 2000);
+        }
+
+        function scrollHorizontally(event) {
+            event.preventDefault();
+            event.currentTarget.scrollLeft += event.deltaY;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartCount();
+        });
+    </script>
 
     <footer>
         <p>&copy; 2025 Магазин техніки</p>
