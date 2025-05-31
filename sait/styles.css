@@ -1,0 +1,100 @@
+/* Загальні стилі */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+/* Шапка сайту */
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Основний контент */
+main {
+    padding: 20px;
+}
+
+/* Заголовки категорій */
+h2 {
+    margin-top: 40px;
+    font-size: 24px;
+    color: #222;
+}
+
+/* Контейнер для горизонтальної прокрутки */
+.scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Рядок товарів */
+.products {
+    display: inline-flex;
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Оформлення картки товару */
+.product {
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 200px;
+    display: inline-block;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Зображення товару */
+.product img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Кнопка покупки */
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Нижній колонтитул */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    margin-top: 30px;
+}
