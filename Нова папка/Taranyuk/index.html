@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин техніки</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Магазин техніки</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Головна</a></li>
+                <li><a href="#">Каталог</a></li>
+                <li><a href="#">Контакти</a></li>
+            </ul>
+            <!-- Кошик у верхньому правому кутку -->
+            <a href="cart.html" class="cart-link" id="cart-panel">
+                <img src="cart-icon.png" alt="Кошик">
+                <span id="cart-count">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Смартфони -->
+        <h2>Смартфони</h2>
+        <div class="scroll-container" onwheel="scrollHorizontally(event)">
+            <div class="products">
+                <div class="product"><img src="https://q-techno.com.ua/media/catalog/product/cache/1/small_image/250x/9df78eab33525d08d6e5fb8d27136e95/1/1/1111_11.jpg" alt="Смартфон 1"><h3>Смартфон 1</h3><p>10 000 грн</p><button onclick="addToCart('Смартфон 1', 10000)">Додати до кошика</button></div>
+                <div class="product"><img src="https://content.rozetka.com.ua/goods/images/big_tile/473822717.jpg" alt="Смартфон 2"><h3>Смартфон 2</h3><p>12 000 грн</p><button onclick="addToCart('Смартфон 2', 12000)">Додати до кошика</button></div>
+                <div class="product"><img src="https://miodessa.com/wp-content/uploads/2025/05/xiaomi_poco_f7_ultra_1.jpg" alt="Смартфон 3"><h3>Смартфон 3</h3><p>14 000 грн</p><button onclick="addToCart('Смартфон 3', 14000)">Додати до кошика</button></div>
+                <div class="product"><img src="https://content1.rozetka.com.ua/goods/images/big_tile/514549850.jpg" alt="Смартфон 4"><h3>Смартфон 4</h3><p>16 000 грн</p><button onclick="addToCart('Смартфон 4', 16000)">Додати до кошика</button></div>
+            </div>
+        </div>
+
+        <!-- Планшети -->
+        <h2>Планшети</h2>
+        <div class="scroll-container" onwheel="scrollHorizontally(event)">
+            <div class="products">
+                <div class="product"><img src="tablet1.jpg" alt="Планшет 1"><h3>Планшет 1</h3><p>7 500 грн</p><button onclick="addToCart('Планшет 1', 7500)">Додати до кошика</button></div>
+                <div class="product"><img src="tablet2.jpg" alt="Планшет 2"><h3>Планшет 2</h3><p>9 500 грн</p><button onclick="addToCart('Планшет 2', 9500)">Додати до кошика</button></div>
+            </div>
+        </div>
+
+        <!-- Розумні годинники -->
+        <h2>Розумні годинники</h2>
+        <div class="scroll-container" onwheel="scrollHorizontally(event)">
+            <div class="products">
+                <div class="product"><img src="watch1.jpg" alt="Годинник 1"><h3>Годинник 1</h3><p>3 000 грн</p><button onclick="addToCart('Годинник 1', 3000)">Додати до кошика</button></div>
+                <div class="product"><img src="watch2.jpg" alt="Годинник 2"><h3>Годинник 2</h3><p>5 500 грн</p><button onclick="addToCart('Годинник 2', 5500)">Додати до кошика</button></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function getCartItems() {
+            return localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+        }
+
+        function updateCartCount() {
+            document.getElementById("cart-count").innerText = getCartItems().length;
+        }
+
+        function addToCart(name, price) {
+            let cartItems = getCartItems();
+            cartItems.push({ name, price });
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartCount();
+
+            // Ховаємо панель кошика на 2 секунди
+            document.getElementById("cart-panel").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("cart-panel").style.opacity = "1";
+            }, 2000);
+        }
+
+        function scrollHorizontally(event) {
+            event.preventDefault();
+            event.currentTarget.scrollLeft += event.deltaY;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartCount();
+        });
+    </script>
+
+    <footer>
+        <p>&copy; 2025 Магазин техніки</p>
+    </footer>
+</body>
+</html>
