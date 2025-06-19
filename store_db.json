@@ -2,19 +2,19 @@
     {
         "title":"Смартфон 1" ,
         "price":10000,
-        "image":"redmic34" ,
+        "image":"redmic34.jpg" ,
         "description":"смартфон робити клац клац номер 1"
     },
     {
         "title":"Смартфон 2" ,
         "price":12000,
-        "image":"samsung" ,
+        "image":"samsung.webp" ,
         "description":"смартфон робити клац клац номер 2"
     },
     {
         "title":"Смартфон 3" ,
         "price":14000,
-        "image":"oyfone" ,
+        "image":"redmic34.jpg" ,
         "description":"смартфон робити клац клац номер 3"
     }
 ]
