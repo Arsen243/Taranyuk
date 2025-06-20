@@ -3,93 +3,893 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Магазин техніки</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>TechStore - Магазин сучасної техніки</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --dark: #1b263b;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --gray: #adb5bd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Шапка сайту */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Кошик */
+        .cart-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .cart-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Основний контент */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Категорії товарів */
+        .category {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-all:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        /* Горизонтальна прокрутка товарів */
+        .scroll-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 1rem 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--light);
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+
+        .products {
+            display: inline-flex;
+            gap: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        /* Картка товару */
+        .product {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            width: 220px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--danger);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .product-image {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .product:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1rem;
+            text-align: left;
+            white-space: normal;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            height: 40px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .product-old-price {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+        }
+
+        .wishlist-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .wishlist-btn:hover {
+            color: var(--danger);
+        }
+
+        .wishlist-btn.active {
+            color: var(--danger);
+        }
+
+        /* Футер */
+        footer {
+            background: linear-gradient(135deg, var(--dark), #0d1b2a);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Анімація додавання в кошик */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+
+        /* Адаптивність */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .cart-link {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+
+            .product {
+                width: 180px;
+            }
+
+            .product-title {
+                font-size: 0.9rem;
+            }
+
+            .product-price {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products {
+                gap: 1rem;
+            }
+
+            .product {
+                width: 160px;
+            }
+
+            .add-to-cart span {
+                display: none;
+            }
+
+            .add-to-cart {
+                padding: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Магазин техніки</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Головна</a></li>
-                <li><a href="#">Каталог</a></li>
-                <li><a href="#">Контакти</a></li>
-            </ul>
-            <!-- Кошик у верхньому правому кутку -->
-            <a href="cart.html" class="cart-link" id="cart-panel">
-                <img src="https://cdn-icons-png.flaticon.com/512/17279/17279978.png" alt="Кошик">
-                <span id="cart-count">0</span>
+        <div class="header-container">
+            <h1>TechStore</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Головна</a></li>
+                    <li><a href="#">Каталог</a></li>
+                    <li><a href="#">Про нас</a></li>
+                    <li><a href="#">Контакти</a></li>
+                </ul>
+            </nav>
+            <a href="cart.html" class="cart-link">
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </div>
+                <span>Кошик</span>
             </a>
-        </nav>
+        </div>
     </header>
 
     <main>
         <!-- Смартфони -->
-        <h2>Смартфони</h2>
-        <div class="scroll-container" onwheel="scrollHorizontally(event)">
-            <div class="products">
-                <div class="product"><img src="https://content2.rozetka.com.ua/goods/images/big_tile/523624871.jpg" alt="Xiaomi Redmi Note 12"><h3>Xiaomi Redmi Note 12</h3><p>10 000 грн</p><button onclick="addToCart('Xiaomi Redmi Note 12', 10000)">Додати</button></div>
-                <div class="product"><img src="https://content.rozetka.com.ua/goods/images/big_tile/473822717.jpg" alt="Samsung Galaxy A54"><h3>Samsung Galaxy A54</h3><p>12 000 грн</p><button onclick="addToCart('Samsung Galaxy A54', 12000)">Додати</button></div>
-                <div class="product"><img src="https://miodessa.com/wp-content/uploads/2025/05/xiaomi_poco_f7_ultra_1.jpg" alt="Xiaomi Poco F5"><h3>Xiaomi Poco F5</h3><p>14 000 грн</p><button onclick="addToCart('Xiaomi Poco F5', 14000)">Додати</button></div>
-                <div class="product"><img src="https://content1.rozetka.com.ua/goods/images/big_tile/514549850.jpg" alt="iPhone 13"><h3>iPhone 13</h3><p>16 000 грн</p><button onclick="addToCart('iPhone 13', 16000)">Додати</button></div>
+        <section class="category">
+            <div class="category-title">
+                <h2>Смартфони</h2>
+                <a href="#" class="view-all">Дивитися всі <i class="fas fa-arrow-right"></i></a>
             </div>
-        </div>
+            <div class="scroll-container" onwheel="scrollHorizontally(event)">
+                <div class="products">
+                    <div class="product">
+                        <div class="product-badge">Топ продаж</div>
+                        <div class="product-image">
+                            <img src="https://content2.rozetka.com.ua/goods/images/big_tile/523624871.jpg" alt="Xiaomi Redmi Note 12">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Xiaomi Redmi Note 12 6/128GB Onyx Gray</h3>
+                            <div class="product-price">
+                                <span class="product-old-price">10 999 грн</span>
+                                9 999 грн
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Xiaomi Redmi Note 12', 9999)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-badge">Новинка</div>
+                        <div class="product-image">
+                            <img src="https://content.rozetka.com.ua/goods/images/big_tile/473822717.jpg" alt="Samsung Galaxy A54">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Samsung Galaxy A54 5G 6/128GB Black</h3>
+                            <div class="product-price">
+                                <span class="product-old-price">14 499 грн</span>
+                                12 999 грн
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Samsung Galaxy A54', 12999)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="https://miodessa.com/wp-content/uploads/2025/05/xiaomi_poco_f7_ultra_1.jpg" alt="Xiaomi Poco F5">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Xiaomi Poco F5 8/256GB Black</h3>
+                            <div class="product-price">14 499 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Xiaomi Poco F5', 14499)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-badge">Акція</div>
+                        <div class="product-image">
+                            <img src="https://content1.rozetka.com.ua/goods/images/big_tile/514549850.jpg" alt="iPhone 13">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Apple iPhone 13 128GB Midnight</h3>
+                            <div class="product-price">
+                                <span class="product-old-price">26 999 грн</span>
+                                24 999 грн
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('iPhone 13', 24999)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="https://content2.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Realme 10 Pro+">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Realme 10 Pro+ 8/128GB Dark Matter</h3>
+                            <div class="product-price">13 499 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Realme 10 Pro+', 13499)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Планшети -->
-        <h2>Планшети</h2>
-        <div class="scroll-container" onwheel="scrollHorizontally(event)">
-            <div class="products">
-                <div class="product"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTliym1bSthBhUpcDULds7iBj6E3rzTPeg_A&s" alt="Samsung Galaxy Tab A8"><h3>Samsung Galaxy Tab A8</h3><p>7 500 грн</p><button onclick="addToCart('Samsung Galaxy Tab A8', 7500)">Додати</button></div>
-                <div class="product"><img src="https://cactus.site/image/cache/catalog/VladimirGorchakov/XiaomiPad6/gold/1-500x500.jpg" alt="Xiaomi Pad 6"><h3>Xiaomi Pad 6</h3><p>9 500 грн</p><button onclick="addToCart('Xiaomi Pad 6', 9500)">Додати</button></div>
-                <div class="product"><img src="https://eplio.com.ua/image/cache/catalog/product_2625_0_image-1000x1000.jpg" alt="Apple iPad 10.2"><h3>Apple iPad 10.2</h3><p>12 000 грн</p><button onclick="addToCart('Apple iPad 10.2', 12000)">Додати</button></div>
+        <section class="category">
+            <div class="category-title">
+                <h2>Планшети</h2>
+                <a href="#" class="view-all">Дивитися всі <i class="fas fa-arrow-right"></i></a>
             </div>
-        </div>
+            <div class="scroll-container" onwheel="scrollHorizontally(event)">
+                <div class="products">
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="https://content.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Samsung Galaxy Tab A8">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Samsung Galaxy Tab A8 10.5 64GB LTE Gray</h3>
+                            <div class="product-price">7 999 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Samsung Galaxy Tab A8', 7999)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-badge">Новинка</div>
+                        <div class="product-image">
+                            <img src="https://content1.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Xiaomi Pad 6">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Xiaomi Pad 6 8/256GB Graphite Gray</h3>
+                            <div class="product-price">15 999 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Xiaomi Pad 6', 15999)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="https://content2.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Apple iPad 10.2">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Apple iPad 10.2 64GB Wi-Fi Space Gray</h3>
+                            <div class="product-price">15 499 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Apple iPad 10.2', 15499)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-badge">Акція</div>
+                        <div class="product-image">
+                            <img src="https://content.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Huawei MatePad">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Huawei MatePad 11 128GB Wi-Fi Matte Gray</h3>
+                            <div class="product-price">
+                                <span class="product-old-price">18 999 грн</span>
+                                16 499 грн
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Huawei MatePad', 16499)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Розумні годинники -->
-        <h2>Розумні годинники</h2>
-        <div class="scroll-container" onwheel="scrollHorizontally(event)">
-            <div class="products">
-                <div class="product"><img src="https://a.allegroimg.com/s1080/11e028/461853f444c5a36be9f475646d0f/Xiaomi-Mi-Mi-Band-8-smartwatch-monitor-zloto" alt="Xiaomi Mi Band 8"><h3>Xiaomi Mi Band 8</h3><p>3 000 грн</p><button onclick="addToCart('Xiaomi Mi Band 8', 3000)">Додати</button></div>
-                <div class="product"><img src="https://avic.com.ua/assets/cache/products/254637/ua-galaxy-watch5-44mm-sm-r910nzbasek-533191685-prod_xl.png" alt="Samsung Galaxy Watch 5"><h3>Samsung Galaxy Watch 5</h3><p>5 500 грн</p><button onclick="addToCart('Samsung Galaxy Watch 5', 5500)">Додати</button></div>
-                <div class="product"><img src="https://applefun.com.ua/upload/2024-10/0-apple-watch-se-2-2024-gps-cellular-44mm-midnight-aluminum-case-with-midnight-sport-band-s-m-mxg13-mxgl31728552031.webp" alt="Apple Watch SE"><h3>Apple Watch SE</h3><p>8 000 грн</p><button onclick="addToCart('Apple Watch SE', 8000)">Додати</button></div>
+        <section class="category">
+            <div class="category-title">
+                <h2>Розумні годинники</h2>
+                <a href="#" class="view-all">Дивитися всі <i class="fas fa-arrow-right"></i></a>
             </div>
-        </div>
+            <div class="scroll-container" onwheel="scrollHorizontally(event)">
+                <div class="products">
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="https://content.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Xiaomi Mi Band 8">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Xiaomi Mi Band 8 Black</h3>
+                            <div class="product-price">1 799 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Xiaomi Mi Band 8', 1799)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-badge">Топ продаж</div>
+                        <div class="product-image">
+                            <img src="https://content1.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Samsung Galaxy Watch 5">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Samsung Galaxy Watch 5 40mm Black</h3>
+                            <div class="product-price">7 999 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Samsung Galaxy Watch 5', 7999)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-image">
+                            <img src="https://content2.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Apple Watch SE">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Apple Watch SE 40mm GPS Space Gray</h3>
+                            <div class="product-price">9 499 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Apple Watch SE', 9499)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product">
+                        <div class="product-badge">Новинка</div>
+                        <div class="product-image">
+                            <img src="https://content.rozetka.com.ua/goods/images/big_tile/364440420.jpg" alt="Huawei Watch GT 3">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Huawei Watch GT 3 46mm Black</h3>
+                            <div class="product-price">6 499 грн</div>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart('Huawei Watch GT 3', 6499)">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Купити</span>
+                                </button>
+                                <button class="wishlist-btn" onclick="toggleWishlist(this)">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Магазин</h3>
+                <ul>
+                    <li><a href="#">Про нас</a></li>
+                    <li><a href="#">Наші магазини</a></li>
+                    <li><a href="#">Блог</a></li>
+                    <li><a href="#">Вакансії</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Клієнтам</h3>
+                <ul>
+                    <li><a href="#">Оплата та доставка</a></li>
+                    <li><a href="#">Гарантія</a></li>
+                    <li><a href="#">Повернення товару</a></li>
+                    <li><a href="#">Кредит</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Контакти</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> 0 800 123 456</li>
+                    <li><i class="fas fa-envelope"></i> info@techstore.ua</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Київ, вул. Хрещатик, 1</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Підписатися на новини</h3>
+                <form>
+                    <input type="email" placeholder="Ваш email" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                    <button type="submit" style="background-color: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Підписатися</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 TechStore. Всі права захищені.</p>
+        </div>
+    </footer>
+
     <script>
-        function getCartItems() {
-            return localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
-        }
-
-        function updateCartCount() {
-            document.getElementById("cart-count").innerText = getCartItems().length;
-        }
-
+        // Функція для додавання товару в кошик
         function addToCart(name, price) {
-            let cartItems = getCartItems();
+            let cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
             cartItems.push({ name, price });
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Оновлення лічильника кошика
             updateCartCount();
-
-            // Ховаємо панель кошика на 2 секунди
-            document.getElementById("cart-panel").style.opacity = "0";
+            
+            // Анімація іконки кошика
+            const cartIcon = document.querySelector('.cart-icon');
+            cartIcon.classList.add('pulse');
             setTimeout(() => {
-                document.getElementById("cart-panel").style.opacity = "1";
-            }, 2000);
+                cartIcon.classList.remove('pulse');
+            }, 500);
+            
+            // Тимчасове підсвічування кошика
+            const cartLink = document.querySelector('.cart-link');
+            cartLink.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            setTimeout(() => {
+                cartLink.style.backgroundColor = '';
+            }, 1000);
         }
-
+        
+        // Функція для оновлення лічильника кошика
+        function updateCartCount() {
+            const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+            document.getElementById('cart-count').textContent = cartItems.length;
+        }
+        
+        // Функція для додавання/видалення зі списку бажань
+        function toggleWishlist(button) {
+            button.classList.toggle('active');
+            const icon = button.querySelector('i');
+            if (button.classList.contains('active')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                // Тут можна додати логіку збереження в localStorage
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                // Тут можна додати логіку видалення з localStorage
+            }
+        }
+        
+        // Функція для горизонтальної прокрутки колесом миші
         function scrollHorizontally(event) {
             event.preventDefault();
-            event.currentTarget.scrollLeft += event.deltaY;
+            const scrollAmount = event.deltaY * 0.5;
+            event.currentTarget.scrollLeft += scrollAmount;
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
+        
+        // Ініціалізація при завантаженні сторінки
+        document.addEventListener('DOMContentLoaded', () => {
             updateCartCount();
         });
     </script>
-
-    <footer>
-        <p>&copy; 2025 Магазин техніки</p>
-    </footer>
 </body>
 </html>
